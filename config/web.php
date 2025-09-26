@@ -42,6 +42,10 @@ $config = [
             ],
         ],
         'db' => $db,
+        // AQUI REGISTRAMOS NUESTRO SERVICIO GRAPHQL
+        'graphql' => [
+            'class' => 'app\components\GraphqlService',
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
