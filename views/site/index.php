@@ -26,11 +26,11 @@ $registrarFacturaResult = $session->getFlash('registrarFacturaResult');
         <div class="row mb-4 text-center">
 
             <!-- Login -->
-            <div class="col-md-2">
+            <!-- <div class="col-md-2">
                 <?= Html::beginForm(['graphql-educativo/login'], 'post') ?>
                 <?= Html::submitButton('Login', ['class' => 'btn btn-success w-100']) ?>
                 <?= Html::endForm() ?>
-            </div>
+            </div> -->
 
             <!-- Productos -->
             <div class="col-md-2">
@@ -63,12 +63,12 @@ $registrarFacturaResult = $session->getFlash('registrarFacturaResult');
         </div>
 
         <!-- Resultados -->
-        <?php if ($loginResult): ?>
+        <!-- <?php if ($loginResult): ?>
             <div class="alert alert-success">
                 <h5>Login</h5>
                 <pre><?= $loginResult ?></pre>
             </div>
-        <?php endif; ?>
+        <?php endif; ?> -->
 
         <?php if ($productosResult): ?>
             <div class="alert alert-primary">

@@ -18,7 +18,7 @@ mutation LOGIN(\$shop: String!, \$email: String!, \$password: String!) {
     }
 }
 GRAPHQL;
-
+        // Generamos las variables de la mutación
         $variables = [
             'shop' => 'sandbox',
             'email' => 'nickyduran80@gmail.com',
@@ -134,12 +134,37 @@ GRAPHQL;
     {
         $model = new FacturaForm();
 
+        // Definir aquí los códigos de punto de venta y sucursal
+        $codigoPuntoVenta = 0; // <-- Cambiar al código correspondiente
+        $codigoSucursal   = 0; // <-- Cambiar al código correspondiente
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $detalle = json_decode($model->detalle, true);
 
+            // Validar que detalle sea un array no vacío
+            if (!is_array($detalle) || empty($detalle)) {
+                Yii::$app->session->setFlash('error', 'Debe ingresar al menos un detalle de factura válido.');
+                return $this->render('//site/form-registro-factura', ['model' => $model]);
+            }
+
+            // Asegurar tipos correctos para GraphQL
+            foreach ($detalle as &$item) {
+                $item['cantidad'] = (int) $item['cantidad'];
+                $item['unidadMedida'] = (int) $item['unidadMedida'];
+                $item['precioUnitario'] = (float) $item['precioUnitario'];
+                $item['montoDescuento'] = (float) $item['montoDescuento'];
+            }
+            unset($item);
+
             $query = <<<GRAPHQL
-mutation EDU_REGISTRO_ONLINE(\$input: FacturaInput!) {
-    facturaSectorEducativoRegistro(notificacion: false, input: \$input) {
+mutation EDU_REGISTRO_ONLINE(
+    \$input: FacturaSectorEducativoInput!,
+) {
+    facturaSectorEducativoRegistro(
+        notificacion: false,
+        entidad: {codigoSucursal: $codigoSucursal, codigoPuntoVenta: $codigoPuntoVenta},
+        input: \$input
+    ) {
         cuf
         state
         numeroFactura
@@ -154,13 +179,16 @@ GRAPHQL;
                         'email' => $model->email
                     ],
                     'actividadEconomica' => $model->actividadEconomica,
-                    'codigoMetodoPago' => $model->codigoMetodoPago,
-                    'descuentoAdicional' => $model->descuentoAdicional,
+                    'codigoMetodoPago' => (int) $model->codigoMetodoPago, // asegurar tipo Int
+                    'descuentoAdicional' => (float) $model->descuentoAdicional, // asegurar tipo Float
                     'nombreEstudiante' => $model->nombreEstudiante,
                     'periodoFacturado' => $model->periodoFacturado,
                     'detalle' => $detalle
-                ]
+                ],
+                'codigoPuntoVenta' => $codigoPuntoVenta,
+                'codigoSucursal' => $codigoSucursal,
             ];
+
 
             try {
                 $token = Yii::$app->session->get('token');

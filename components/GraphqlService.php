@@ -29,12 +29,12 @@ class GraphqlService
      * Constructor
      *
      * Inicializa la conexión con el endpoint GraphQL.
-     * - base_uri → dirección del servidor (ejemplo: sandbox de ISIPASS)
+     * - base_uri → dirección del servidor (ejemplo: demo de ISIPASS)
      * - timeout → tiempo máximo de espera por la respuesta (segundos)
      */
     public function __construct()
     {
-        $this->endpoint = "https://sandbox.isipass.net/sectorEducativo"; // Cambiar a demo/prod si es necesario
+        $this->endpoint = "https://demo.isipass.com.bo/api"; // URL comercial ISIPASS
         $this->client = new Client([
             'base_uri' => $this->endpoint,
             'timeout'  => 10.0,
