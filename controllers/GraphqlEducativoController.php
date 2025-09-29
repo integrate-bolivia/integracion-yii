@@ -8,31 +8,6 @@ use app\models\FacturaForm;
 
 class GraphqlEducativoController extends Controller
 {
-    // Genera un token de autenticación a partir del shop, email y password
-    public function actionLogin()
-    {
-        $query = <<<GRAPHQL
-mutation LOGIN(\$shop: String!, \$email: String!, \$password: String!) {
-    login(shop: \$shop, email: \$email, password: \$password) {
-        token
-    }
-}
-GRAPHQL;
-        // Generamos las variables de la mutación
-        $variables = [
-            'shop' => 'sandbox',
-            'email' => 'nickyduran80@gmail.com',
-            'password' => '12925818',
-        ];
-
-        try {
-            $data = Yii::$app->graphql->request($query, $variables);
-            Yii::$app->session->set('token', $data['login']['token']);
-            return $this->renderContent("<pre>Login OK\nToken: " . $data['login']['token'] . "</pre>");
-        } catch (\Exception $e) {
-            return $this->renderContent("Error GraphQL: " . $e->getMessage());
-        }
-    }
 
     // Lista los productos educativos registrados
     public function actionProductos()
@@ -51,9 +26,9 @@ query LISTADO {
 GRAPHQL;
 
         try {
-            $token = Yii::$app->session->get('token');
+            $token = $_ENV['TOKEN_ISIPASS'] ?? null;
             $data = Yii::$app->graphql->request($query, [], $token);
-            return $this->renderContent("<pre>" . print_r($data, true) . "</pre>");
+            return $this->renderContent("<pre>" . json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "</pre>");
         } catch (\Exception $e) {
             return $this->renderContent("Error GraphQL: " . $e->getMessage());
         }
@@ -78,7 +53,7 @@ query LISTADO {
 GRAPHQL;
 
         try {
-            $token = Yii::$app->session->get('token');
+            $token = $token = $_ENV['TOKEN_ISIPASS'] ?? null;
             $data = Yii::$app->graphql->request($query, [], $token);
             $facturas = $data['facturaSectorEducativoListado']['docs'] ?? [];
 
@@ -117,7 +92,7 @@ query CLIENTES_LISTADO {
 GRAPHQL;
 
         try {
-            $token = Yii::$app->session->get('token');
+            $token = $token = $_ENV['TOKEN_ISIPASS'] ?? null;
             $data = Yii::$app->graphql->request($query, [], $token);
             $clientes = $data['clientesAll']['docs'] ?? [];
 
@@ -191,7 +166,7 @@ GRAPHQL;
 
 
             try {
-                $token = Yii::$app->session->get('token');
+                $token = $token = $_ENV['TOKEN_ISIPASS'] ?? null;
                 $data = Yii::$app->graphql->request($query, $variables, $token);
                 return $this->render('resultado', ['data' => $data]);
             } catch (\Exception $e) {

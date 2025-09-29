@@ -34,7 +34,7 @@ class GraphqlService
      */
     public function __construct()
     {
-        $this->endpoint = "https://demo.isipass.com.bo/api"; // URL comercial ISIPASS
+        $this->endpoint = $_ENV['ENPOINT_ISIPASS']; // URL comercial ISIPASS
         $this->client = new Client([
             'base_uri' => $this->endpoint,
             'timeout'  => 10.0,
@@ -77,7 +77,7 @@ class GraphqlService
     public function request($query, $variables = [], $token = null)
     {
         // Si no recibimos token, usamos el de .env
-        $token = $token ?? getenv('TOKEN_ISIPASS');
+        $token =  $_ENV['TOKEN_ISIPASS'];
         // Cabeceras básicas de la petición (JSON)
         $headers = ['Content-Type' => 'application/json'];
 

@@ -34,9 +34,7 @@ $registrarFacturaResult = $session->getFlash('registrarFacturaResult');
 
             <!-- Productos -->
             <div class="col-md-2">
-                <?= Html::beginForm(['graphql-educativo/productos'], 'post') ?>
-                <?= Html::submitButton('Productos', ['class' => 'btn btn-primary w-100']) ?>
-                <?= Html::endForm() ?>
+                <?= Html::a('Productos', ['graphql-educativo/productos'], ['class' => 'btn btn-primary w-100']) ?>
             </div>
 
             <!-- Facturas -->
