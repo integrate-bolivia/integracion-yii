@@ -8,7 +8,7 @@ use app\models\FacturaForm;
 
 class GraphqlEducativoController extends Controller
 {
-    // Login para obtener token
+    // Genera un token de autenticación a partir del shop, email y password
     public function actionLogin()
     {
         $query = <<<GRAPHQL
@@ -34,7 +34,7 @@ GRAPHQL;
         }
     }
 
-    // Listado de productos
+    // Lista los productos educativos registrados
     public function actionProductos()
     {
         $query = <<<GRAPHQL
@@ -59,7 +59,7 @@ GRAPHQL;
         }
     }
 
-    // Listado de facturas
+    // Muestra el listado de facturas emitidas
     public function actionFacturasLista()
     {
         $query = <<<GRAPHQL
@@ -90,7 +90,7 @@ GRAPHQL;
         }
     }
 
-    // Listado de clientes
+    // Muestra el listado de clientes
     public function actionClientesLista()
     {
         $query = <<<GRAPHQL
@@ -129,7 +129,7 @@ GRAPHQL;
         }
     }
 
-    // Formulario + acción de registrar factura
+    // Muestra formulario + registra una factura nueva
     public function actionRegistrarFactura()
     {
         $model = new FacturaForm();

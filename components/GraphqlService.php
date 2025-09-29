@@ -76,6 +76,8 @@ class GraphqlService
      */
     public function request($query, $variables = [], $token = null)
     {
+        // Si no recibimos token, usamos el de .env
+        $token = $token ?? getenv('TOKEN_ISIPASS');
         // Cabeceras básicas de la petición (JSON)
         $headers = ['Content-Type' => 'application/json'];
 
