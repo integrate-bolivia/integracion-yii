@@ -29,29 +29,45 @@ Para ello, se utilizan las siguientes extensiones/librerías:
   ```bash
   composer require vlucas/phpdotenv
 
-⚙️ MODIFICACIONES NECESARIAS
-1. Configurar el index.php de la carpeta web
+## MODIFICACIONES NECESARIAS
+1. **Modificar el archivo `web/index.php`**
 
-Después de la variable $config, agregar:
+Después de la variable `$config`, agregar:
 
+```php
 // Cargar dotenv
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
-
+```
 
 📖 Explicación:
-Con esto se cargan automáticamente las variables definidas en el archivo .env ubicado en la raíz del proyecto.
+Con esto se cargan automáticamente las variables definidas en el archivo `.env` ubicado en la raíz del proyecto.
 De esta manera puedes acceder a valores sensibles (como TOKEN_ISIPASS) usando:
 
-$token = getenv('TOKEN_ISIPASS');
+```bash
+# Archivo .env
+TOKEN_ISIPASS="[TokenIsipass]"
+ENPOINT_ISIPASS="[EndPointSalidaDatos]"
+```
 
-2. En config/web.php → agregar GraphQL en components
+La forma de acceder a las variables de entorno es la siguiente
+
+```php
+$token = $_ENV['TOKEN_ISIPASS']
+$envPoint = $_ENV['ENPOINT_ISIPASS'];
+```
+
+#### **Agregar graphql al servicio de componentes**.
+
+Modificar el archivo `config/web.php` y registrar los servicios **GRAPHQL**
+
+```php
 // AQUI REGISTRAMOS NUESTRO SERVICIO GRAPHQL
 'graphql' => [
-    'class' => 'app\components\GraphqlService',
+ 'class' => 'app\components\GraphqlService',
 ],
+```
 
 
 📖 Explicación:
 Esto registra un nuevo componente en Yii2 llamado graphql.
-
