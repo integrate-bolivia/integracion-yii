@@ -16,9 +16,9 @@ Para ello, se utilizan las siguientes extensiones/librerías:
 - **Composer**  
   Gestor de dependencias en PHP. Facilita la instalación y actualización de librerías externas.  
 
-- **GuzzleHTTP** 
-  Cliente HTTP para PHP. Útil para realizar peticiones a APIs externas como ISIPASS.  
-  👉 No forma parte de Yii, pero se integra sin problemas.  
+- **GuzzleHTTP**  
+  Cliente HTTP para PHP. Se utiliza para realizar peticiones a APIs externas como ISIPASS.  
+  👉 No forma parte de Yii, pero se integra sin problemas y es requerido en este proyecto.
 
 - **cURL (PHP extension)**  
   Extensión nativa de PHP para realizar peticiones HTTP. Se puede usar como alternativa a Guzzle sin necesidad de dependencias adicionales.  
